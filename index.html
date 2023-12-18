@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Particle Animation with Text Overlay</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-    <script type="module" src="./assets/js/test.js"></script>
+    <script type="module" src="./assets/js/test.js" defer></script>
     <style>
         .swiper-container {
             width: 100%;
@@ -56,5 +56,20 @@
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+    const swiper = new Swiper('.swiper-container', {
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+
+    // Call the function to add particles, text, and images dynamically
+    await addParticlesAndText(swiper);
+});
+</script>
 </body>
 </html>

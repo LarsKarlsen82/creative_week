@@ -7,7 +7,7 @@ async function loadParticles(options) {
   await tsParticles.load({ id: "tsparticles", options });
 }
 
-const configs = {
+const particleConfigs  = {
   name: "Fireworks Mask",
   fullScreen: {
     enable: true
@@ -203,39 +203,74 @@ const configs = {
   }
 };
 
-loadParticles(configs);
+// Load particles with the provided configuration
+loadParticles(particleConfigs);
 
- 
-    // Function to add particles and text dynamically
-    function addParticlesAndText() {
-        // Get the swiper wrapper element
-        const carWrapper = document.getElementById('carWrapper');
+// Function to add particles, text, and images dynamically
+async function addParticlesAndText(swiper) {
+  // Create a new swiper slide
+  const newSlide = document.createElement('div');
+  newSlide.classList.add('swiper-slide');
 
-        // Create a new swiper slide
-        const newSlide = document.createElement('div');
-        newSlide.classList.add('swiper-slide');
+  // Create particle container for the new slide
+  const particleContainer = document.createElement('div');
+  particleContainer.classList.add('particle-container');
 
-        // Create particle container for the new slide
-        const particleContainer = document.createElement('div');
-        particleContainer.classList.add('particle-container');
+  // Add particles to the container (assuming tsParticles is loaded)
+  const particlesDiv = document.createElement('div');
+  particlesDiv.id = 'tsparticles'; // Assuming this is where particles should be rendered
+  particleContainer.appendChild(particlesDiv);
 
-        // Add particles to the container (assuming tsParticles is loaded)
-        const particlesDiv = document.createElement('div');
-        particlesDiv.id = 'tsparticles'; // Assuming this is where particles should be rendered
-        particleContainer.appendChild(particlesDiv);
+  // Add overlay text to the new slide
+  const overlayText = document.createElement('div');
+  overlayText.classList.add('overlay-text');
+  overlayText.textContent = 'Happy New Year 2023';
+  particleContainer.appendChild(overlayText);
 
-        // Add overlay text to the new slide
-        const overlayText = document.createElement('div');
-        overlayText.classList.add('overlay-text');
-        overlayText.textContent = 'Happy NewYear 2023';
-        particleContainer.appendChild(overlayText);
+  // Add images to the new slide from the assets/img directory
+  const imageNames = [
 
-        // Append the particle container to the new slide
-        newSlide.appendChild(particleContainer);
+    // Add more image names as needed
+  ];
 
-        // Append the new slide to the swiper wrapper
-        carWrapper.appendChild(newSlide);
-    }
+  imageNames.forEach((imageName) => {
+    const imageUrl = `./assets/img/${imageName}`;
+    const imageElement = document.createElement('img');
+    imageElement.src = imageUrl;
+    newSlide.appendChild(imageElement);
+  });
 
-    // Call the function to add particles and text dynamically
-    addParticlesAndText();
+  // Append the particle container to the new slide
+  newSlide.appendChild(particleContainer);
+
+  // Append the new slide to the swiper wrapper
+  swiper.appendSlide(newSlide);
+}
+
+    // Initialize Swiper
+    document.addEventListener('DOMContentLoaded', async function () {
+        const swiper = new Swiper('.swiper-container', {
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+        // Call the function to add particles, text, and images dynamically
+        await addParticlesAndText(swiper);
+    });
+
+            // Get the audio element
+            const backgroundMusic = document.getElementById('backgroundMusic');
+
+            // Play button
+            const playButton = document.getElementById('playButton');
+            playButton.addEventListener('click', function () {
+                backgroundMusic.play();
+            });
+    
+            // Pause button
+            const pauseButton = document.getElementById('pauseButton');
+            pauseButton.addEventListener('click', function () {
+                backgroundMusic.pause();
+            });
