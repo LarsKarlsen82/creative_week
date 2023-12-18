@@ -205,36 +205,37 @@ const configs = {
 
 loadParticles(configs);
 
- // Function to add particles and text dynamically
- function addParticlesAndText() {
-    // Get the swiper wrapper element
-    const carWrapper = document.getElementById('carWrapper');
+ 
+    // Function to add particles and text dynamically
+    function addParticlesAndText() {
+        // Get the swiper wrapper element
+        const carWrapper = document.getElementById('carWrapper');
 
-    // Create a new swiper slide
-    const newSlide = document.createElement('div');
-    newSlide.classList.add('swiper-slide');
+        // Create a new swiper slide
+        const newSlide = document.createElement('div');
+        newSlide.classList.add('swiper-slide');
 
-    // Create particle container for the new slide
-    const particleContainer = document.createElement('div');
-    particleContainer.classList.add('particle-container');
+        // Create particle container for the new slide
+        const particleContainer = document.createElement('div');
+        particleContainer.classList.add('particle-container');
 
-    // Add particles to the container (assuming tsParticles is loaded)
-    const particlesDiv = document.createElement('div');
-    particlesDiv.id = 'tsparticles'; // Assuming this is where particles should be rendered
-    particleContainer.appendChild(particlesDiv);
+        // Add particles to the container (assuming tsParticles is loaded)
+        const particlesDiv = document.createElement('div');
+        particlesDiv.id = 'tsparticles'; // Assuming this is where particles should be rendered
+        particleContainer.appendChild(particlesDiv);
 
-    // Add overlay text to the new slide
-    const overlayText = document.createElement('div');
-    overlayText.classList.add('overlay-text');
-    overlayText.textContent = 'Happy NewYear 2023';
-    particleContainer.appendChild(overlayText);
+        // Add overlay text to the new slide
+        const overlayText = document.createElement('div');
+        overlayText.classList.add('overlay-text');
+        overlayText.textContent = 'Happy NewYear 2023';
+        particleContainer.appendChild(overlayText);
 
-    // Append the particle container to the new slide
-    newSlide.appendChild(particleContainer);
+        // Append the particle container to the new slide
+        newSlide.appendChild(particleContainer);
 
-    // Append the new slide to the swiper wrapper
-    carWrapper.appendChild(newSlide);
-}
+        // Append the new slide to the swiper wrapper
+        carWrapper.appendChild(newSlide);
+    }
 
-// Call the function to add particles and text dynamically
-addParticlesAndText();
+    // Call the function to add particles and text dynamically
+    addParticlesAndText();
