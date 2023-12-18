@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walking Animation</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="walkingCanvas" width="400" height="200"></canvas>
+
+    <script>
+        const canvas = document.getElementById('walkingCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const person = {
+            x: 50,
+            y: canvas.height - 50,
+            width: 20,
+            height: 30,
+            step: 2,
+            direction: 1, // 1 for right, -1 for left
+            legAngle: 0,
+            legDirection: 1,
+        };
+
+        function drawPerson() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw head
+            ctx.beginPath();
+            ctx.arc(person.x + person.width / 2, person.y - 10, 10, 0, 2 * Math.PI);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+            ctx.closePath();
+
+            // Draw body
+            ctx.beginPath();
+            ctx.moveTo(person.x + person.width / 2, person.y - 5);
+            ctx.lineTo(person.x + person.width / 2, person.y + person.height);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.closePath();
+
+            // Draw arms
+            ctx.beginPath();
+            ctx.moveTo(person.x, person.y + 10);
+            ctx.lineTo(person.x + person.width, person.y + 10);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.closePath();
+
+            // Draw legs
+            drawLeg(person.x + person.width / 2 - 5, person.y + person.height, person.legAngle * person.legDirection);
+            drawLeg(person.x + person.width / 2 + 5, person.y + person.height, -person.legAngle * person.legDirection);
+        }
+
+        function drawLeg(x, y, angle) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, 20);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.restore();
+            ctx.closePath();
+        }
+
+        function update() {
+            // Update person's position
+            person.x += person.step * person.direction;
+
+            // Update leg movement
+            person.legAngle += 0.1 * person.direction;
+
+            // Change direction when reaching canvas edges
+            if (person.x + person.width > canvas.width || person.x < 0) {
+                person.direction *= -1;
+            }
+
+            // Redraw the person
+            drawPerson();
+
+            // Repeat the update function
+            requestAnimationFrame(update);
+        }
+
+        // Start the animation loop
+        update();
+    </script>
+</body>
+</html>
