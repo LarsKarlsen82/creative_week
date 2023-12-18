@@ -1,0 +1,9 @@
+body {
+    margin: 0;
+    overflow: hidden; /* Prevent scrollbars */
+}
+
+canvas {
+    display: block; /* Make the canvas a block-level element to fill the entire width of its container */
+    background-color: #f0f0f0; /* Set a background color for the canvas */
+}
