@@ -259,18 +259,3 @@ async function addParticlesAndText(swiper) {
         // Call the function to add particles, text, and images dynamically
         await addParticlesAndText(swiper);
     });
-
-            // Get the audio element
-            const backgroundMusic = document.getElementById('backgroundMusic');
-
-            // Play button
-            const playButton = document.getElementById('playButton');
-            playButton.addEventListener('click', function () {
-                backgroundMusic.play();
-            });
-    
-            // Pause button
-            const pauseButton = document.getElementById('pauseButton');
-            pauseButton.addEventListener('click', function () {
-                backgroundMusic.pause();
-            });
