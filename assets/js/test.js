@@ -196,49 +196,123 @@ const particleConfigs  = {
           "https://particles.js.org/audio/explosion0.mp3",
           "https://particles.js.org/audio/explosion1.mp3",
           "https://particles.js.org/audio/explosion2.mp3"
+          
+          
         ]
-      }
+      },
     ],
-    volume: 50
+  
+    volume: 40
   }
 };
 
 // Load particles with the provided configuration
 loadParticles(particleConfigs);
 
+
+
+// // Function to add particles, text, and images dynamically
+// async function addParticlesAndText(swiper, imageNames, slideText) {
+//   // Create a new swiper slide
+//   const newSlide = document.createElement('div');
+//   newSlide.classList.add('swiper-slide');
+//   newSlide.style.position = 'relative'; // Set relative positioning on the slide
+
+//   // Create particle container for the new slide
+//   const particleContainer = document.createElement('div');
+//   particleContainer.classList.add('particle-container');
+
+//   // Add images to the new slide from the assets/img directory
+//   imageNames.forEach((imageName, index) => {
+//     const imageUrl = `./assets/img/${imageName}`;
+
+//     // Create image element
+//     const imageElement = document.createElement('img');
+//     imageElement.src = imageUrl;
+//     imageElement.classList.add('swiper-image');
+//     imageElement.style.width = '100%'; // Set width to 100%
+//     imageElement.style.height = 'auto'; // Maintain the original aspect ratio
+//     imageElement.style.position = 'absolute'; // Set absolute positioning
+
+//     // Calculate the translation for each image based on its index
+//     const translation = index * 100;
+//     imageElement.style.transform = `translateX(${translation}%)`;
+
+//     newSlide.appendChild(imageElement);
+//   });
+
+//   // Add overlay text to the new slide
+//   const overlayText = document.createElement('div');
+//   overlayText.classList.add('overlay-text');
+//   overlayText.textContent = slideText || 'Default Text';
+//   overlayText.style.position = 'absolute'; // Set absolute positioning
+//   overlayText.style.bottom = '10px'; // Adjust the bottom value as needed
+//   overlayText.style.left = '50%'; // Center horizontally
+//   overlayText.style.transform = 'translateX(-50%)'; // Center horizontally
+//   overlayText.style.zIndex = '1'; // Ensure text appears above images
+
+//   particleContainer.appendChild(overlayText);
+
+//   // Append the particle container to the new slide
+//   newSlide.appendChild(particleContainer);
+
+//   // Append the new slide to the swiper wrapper
+//   swiper.appendSlide(newSlide);
+// }
 // Function to add particles, text, and images dynamically
-async function addParticlesAndText(swiper) {
+
+// Function to add particles, text, and images dynamically
+async function addParticlesAndText(swiper, imageNames, slideText) {
   // Create a new swiper slide
   const newSlide = document.createElement('div');
   newSlide.classList.add('swiper-slide');
+  newSlide.style.position = 'relative'; // Set relative positioning on the slide
+  newSlide.style.overflow = 'hidden'; // Hide overflow to prevent images from overlapping
 
   // Create particle container for the new slide
   const particleContainer = document.createElement('div');
   particleContainer.classList.add('particle-container');
 
-  // Add particles to the container (assuming tsParticles is loaded)
-  const particlesDiv = document.createElement('div');
-  particlesDiv.id = 'tsparticles'; // Assuming this is where particles should be rendered
-  particleContainer.appendChild(particlesDiv);
+  // Track the total width for all images
+  let totalImageWidth = 0;
+
+  // Add images to the new slide from the assets/img directory
+  imageNames.forEach((imageName, index) => {
+    const imageUrl = `./assets/img/${imageName}`;
+
+    // Create image element
+    const imageElement = document.createElement('img');
+    imageElement.src = imageUrl;
+    imageElement.classList.add('swiper-image');
+    imageElement.style.width = '100%'; // Set width to 100%
+    imageElement.style.height = 'auto'; // Maintain the original aspect ratio
+    imageElement.style.position = 'absolute'; // Set absolute positioning
+
+    // Add the image to the slide
+    newSlide.appendChild(imageElement);
+
+    // Update the total width for the translation calculation
+    totalImageWidth += imageElement.clientWidth;
+
+    // Calculate the translation for each image based on its index
+    const translation = index * 100;
+    imageElement.style.transform = `translateX(${totalImageWidth - translation}px)`;
+
+    // Set z-index to ensure proper layering
+    imageElement.style.zIndex = index + 1;
+  });
 
   // Add overlay text to the new slide
   const overlayText = document.createElement('div');
   overlayText.classList.add('overlay-text');
-  overlayText.textContent = 'Happy New Year 2023';
+  overlayText.textContent = slideText || 'Default Text';
+  overlayText.style.position = 'absolute'; // Set absolute positioning
+  overlayText.style.bottom = '10px'; // Adjust the bottom value as needed
+  overlayText.style.left = '50%'; // Center horizontally
+  overlayText.style.transform = 'translateX(-50%)'; // Center horizontally
+  overlayText.style.zIndex = '999'; // Ensure text appears above images
+
   particleContainer.appendChild(overlayText);
-
-  // Add images to the new slide from the assets/img directory
-  const imageNames = [
-
-    // Add more image names as needed
-  ];
-
-  imageNames.forEach((imageName) => {
-    const imageUrl = `./assets/img/${imageName}`;
-    const imageElement = document.createElement('img');
-    imageElement.src = imageUrl;
-    newSlide.appendChild(imageElement);
-  });
 
   // Append the particle container to the new slide
   newSlide.appendChild(particleContainer);
@@ -247,15 +321,61 @@ async function addParticlesAndText(swiper) {
   swiper.appendSlide(newSlide);
 }
 
-    // Initialize Swiper
-    document.addEventListener('DOMContentLoaded', async function () {
-        const swiper = new Swiper('.swiper-container', {
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-        });
 
-        // Call the function to add particles, text, and images dynamically
-        await addParticlesAndText(swiper);
-    });
+// ...
+
+// Initialize Swiper
+document.addEventListener('DOMContentLoaded', async function () {
+  const swiper = new Swiper('.swiper-container', {
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    effect: 'fade', // or 'slide' or other effects
+    speed: 800, // Adjust the speed as needed (in milliseconds)
+  });
+
+  // Define image names and text for each slide
+  const slideData = [
+    { images: ['Family.jpg'], text: 'Happy Newyear 2023' },
+    // { images: ['Family..jpg', 'volvo.jpg'], text: 'Slide 2 Text' },
+    { images: ['MigOgMarieOgSpun.jpg'], text: 'Qujanaq ukiumut qaangiutilersumut' },
+    { images: ['Family2.jpg'], text: 'Ukiumut nutaamut iserluarisi' },
+    { images: ['oorl.jpg'], text: 'Slide 3 Text' },
+    // Add more slide data as needed
+  ];
+
+  // Loop through the slide data and add each slide dynamically
+  for (const data of slideData) {
+    await addParticlesAndText(swiper, data.images, data.text);
+  }
+
+  // Get the button element
+  const toggleButton = document.getElementById('toggleButton');
+
+  // Add a click event listener to toggle pause/play
+  toggleButton.addEventListener('click', function () {
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    if (backgroundMusic.paused) {
+      backgroundMusic.play();
+      toggleButton.textContent = 'Pause';
+    } else {
+      backgroundMusic.pause();
+      toggleButton.textContent = 'Play';
+    }
+  });
+});
+
+  // Play background music on page load
+  const backgroundMusic = document.getElementById('backgroundMusic');
+  backgroundMusic.play();
+
+  // Trigger fireworks sounds on page load
+  tsParticles.events.addEventListeners({
+    render: () => {
+      tsParticles.container("tsparticles").playSound("explodeSoundCheck");
+    },
+  });
+
+
+

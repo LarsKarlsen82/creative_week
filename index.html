@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Particle Animation with Text Overlay</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-    <script type="module" src="./assets/js/test.js" defer></script>
     <style>
         .swiper-container {
             width: 100%;
@@ -37,12 +36,69 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
             z-index: 2;
         }
+
+        /* Additional styles to make the button visible */
+        #toggleButton {
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 3;
+        }
+
+        #toggleButton:hover {
+            background-color: #2980b9;
+        }
+
+            /* Additional styles to make the button visible */
+            #nextButton {
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            z-index: 3;
+        }
+
+        #nextButton:hover {
+            background-color: #2980b9;
+        }
+
+        .swiper-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .swiper-image {
+            margin-top: 15% !important; /* Adjust the value as needed */
+            width: 50%; /* Set your desired width */
+            height: 50% !important; /* Set your desired height */
+            margin: 0 auto; /* Center the image horizontally */
+            display: block; /* Ensure the image is treated as a block element */
+            object-fit: scale-down;
+        }
+        .swiper-image::after{
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+
     </style>
 </head>
 <body>
 
 <audio id="backgroundMusic" autoplay loop>
+    <source src="./assets/music/Aarlorfigissavat.mp3" type="audio/mp3">
     <source src="./assets/music/Happy New Year.mp3" type="audio/mp3">
+    
     <!-- Add additional source elements for other audio formats if needed -->
 </audio>
 
@@ -54,22 +110,50 @@
     <div class="swiper-button-prev"></div>
 </div>
 
+<button id="toggleButton">Pause</button>
+<button id="nextButton">Next</button>
+
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script type="module" src="./assets/js/test.js" defer></script>
 
-
+</body>
 
 <script>
-    document.addEventListener('DOMContentLoaded', async function () {
-    const swiper = new Swiper('.swiper-container', {
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get references to the audio element and next button
+        const audio = document.getElementById("backgroundMusic");
+        const nextButton = document.getElementById("nextButton");
 
-    // Call the function to add particles, text, and images dynamically
-    await addParticlesAndText(swiper);
-});
+        // Define an array of song sources
+        const songs = [
+            "./assets/music/Happy New Year.mp3",
+            "./assets/music/Aarlorfigissavat.mp3",
+            // Add additional song sources as needed
+        ];
+
+        // Initialize the current song index
+        let currentSongIndex = 0;
+
+        // Function to change the song
+        function changeSong() {
+            // Increment the current song index
+            currentSongIndex++;
+
+            // If the index goes beyond the last song, loop back to the first song
+            if (currentSongIndex >= songs.length) {
+                currentSongIndex = 0;
+            }
+
+            // Update the audio source with the new song
+            audio.src = songs[currentSongIndex];
+
+            // Play the updated audio
+            audio.play();
+        }
+
+        // Add a click event listener to the nextButton
+        nextButton.addEventListener("click", changeSong);
+    });
 </script>
-</body>
+
 </html>
